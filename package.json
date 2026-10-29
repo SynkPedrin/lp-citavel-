@@ -1,0 +1,50 @@
+{
+  "name": "citavel-experience",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "assets": "node scripts/prepare-assets.mjs",
+    "remotion:studio": "remotion studio",
+    "render:hero": "remotion render CitavelHeroFilm public/media/hero-film.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=27 --width=1280 --height=720",
+    "render:network": "remotion render ReputationNetwork public/media/reputation-network.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=28 --width=1280 --height=720",
+    "render:final": "remotion render PulsoFinal public/media/pulso-final.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=28 --width=1280 --height=720",
+    "render:posters": "remotion still PulsoFinal public/media/pulso-final-poster.jpg --frame=150 --width=1280 --height=720 --image-format=jpeg --jpeg-quality=82",
+    "render:og": "remotion still OgCard src/app/opengraph-image.jpg --image-format=jpeg --jpeg-quality=88",
+    "render:media": "npm run render:hero && npm run render:final && npm run render:posters && npm run render:og"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@hookform/resolvers": "^6.0.2",
+    "@radix-ui/react-accordion": "^1.3.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.27",
+    "lucide-react": "^1.63.0",
+    "next": "16.4.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "^7.91.0",
+    "tailwind-merge": "^3.7.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/cli": "4.0.539",
+    "@remotion/google-fonts": "4.0.539",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "remotion": "4.0.539",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

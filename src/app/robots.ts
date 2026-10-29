@@ -1,0 +1,15 @@
+import type { MetadataRoute } from "next";
+import { site } from "@/content/site";
+import { getSiteEnv } from "@/lib/env";
+
+export default function robots(): MetadataRoute.Robots {
+  // Prévias (inclusive com a tabela comercial proposta) nunca são indexadas.
+  if (getSiteEnv() !== "production") {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+  return {
+    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
+    sitemap: `${site.url}/sitemap.xml`,
+    host: site.url,
+  };
+}
