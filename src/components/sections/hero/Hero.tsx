@@ -34,11 +34,7 @@ export function Hero() {
       <div aria-hidden className="absolute left-1/2 top-24 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-lime/[0.08] blur-[120px]" />
 
       <div className="shell text-center">
-        <p data-hero-in className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-graphite/70 px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-mist">
-          <span aria-hidden className="size-1.5 rounded-full bg-lime shadow-[0_0_8px_rgba(189,245,49,0.9)]" />
-          {hero.eyebrow}
-        </p>
-        <h1 id="hero-title" data-hero-in className="mx-auto mt-6 max-w-6xl font-display text-[clamp(1.85rem,3.7vw,3.4rem)] font-extrabold uppercase leading-[1.02] tracking-[-0.02em]">
+        <h1 id="hero-title" data-hero-in className="mx-auto max-w-6xl font-display text-[clamp(1.85rem,3.7vw,3.4rem)] font-extrabold uppercase leading-[1.02] tracking-[-0.02em]">
           <span className="block">{hero.headline[0]}</span>{" "}
           <span className="block text-lime">{hero.headline[1]}</span>
         </h1>

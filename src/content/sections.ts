@@ -6,7 +6,6 @@
  */
 
 export const hero = {
-  eyebrow: "Reputação em inteligência artificial",
   headline: ["Seu cliente pergunta para a IA.", "Sua empresa aparece na resposta?"],
   sub: "A Citável descobre como sua empresa aparece no ChatGPT, Gemini e outras inteligências artificiais — e executa melhorias para fortalecer sua presença e reputação digital.",
   fieldLabel: "Cole o site da sua empresa",
