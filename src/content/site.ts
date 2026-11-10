@@ -7,10 +7,10 @@
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://citavel.ai").replace(/\/$/, "");
 
 export const site = {
-  name: "CITÁVEL™",
+  name: "CITÁVEL",
   plainName: "CITÁVEL",
   url: siteUrl,
-  title: "CITÁVEL™ · Reputação de marcas em inteligência artificial",
+  title: "CITÁVEL · Reputação de marcas em inteligência artificial",
   description:
     "Descubra se sua empresa aparece quando alguém pede uma recomendação ao ChatGPT, Gemini e outras IAs. A Citável analisa as respostas, identifica oportunidades e executa melhorias todo mês. Planos a partir de R$ 497/mês.",
   shortDescription:

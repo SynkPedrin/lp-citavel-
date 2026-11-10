@@ -1,9 +1,8 @@
 "use client";
 
-import { Info } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 
-/** Tooltip acessível: abre com hover, foco ou toque; Esc fecha. */
+/** Dica (Brand Book · componentes): balão grafite. Abre com hover, foco ou toque; Esc fecha. */
 export function InfoTip({ label, text }: { label: string; text: string }) {
   const [open, setOpen] = useState(false);
   const id = useId();
@@ -33,15 +32,15 @@ export function InfoTip({ label, text }: { label: string; text: string }) {
         onClick={() => setOpen((v) => !v)}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
-        className="grid size-5 place-items-center rounded-full text-mist transition-colors hover:text-lime"
+        className="grid size-5 place-items-center rounded-full border border-current text-[11px] font-bold leading-none opacity-60 transition-opacity hover:opacity-100"
       >
-        <Info aria-hidden className="size-3.5" />
+        i
       </button>
       {open && (
         <span
           id={id}
           role="tooltip"
-          className="absolute bottom-full left-1/2 z-30 mb-2 w-64 -translate-x-1/2 rounded-xl border border-line-strong bg-ink px-3 py-2.5 text-left text-xs font-normal normal-case leading-relaxed tracking-normal text-paper/90 shadow-xl"
+          className="absolute bottom-full left-1/2 z-30 mb-2 w-64 -translate-x-1/2 rounded-[12px] bg-grafite px-3 py-2.5 text-left text-[13px] font-normal normal-case leading-relaxed tracking-normal text-papel"
         >
           {text}
         </span>

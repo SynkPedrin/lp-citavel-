@@ -1,10 +1,10 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
 import { whatsappLink } from "@/content/site";
 import { track } from "@/lib/analytics";
+import { BrandIcon } from "@/components/brand/BrandIcon";
 
-/** Atalho fixo para o WhatsApp oficial da Citável. */
+/** Atalho fixo para o WhatsApp oficial da Citável (lima é ação). */
 export function WhatsAppFloat() {
   return (
     <a
@@ -13,9 +13,10 @@ export function WhatsAppFloat() {
       rel="noopener noreferrer"
       onClick={() => track("whatsapp_click", { origin: "flutuante" })}
       aria-label="Falar com a Citável no WhatsApp (abre em nova aba)"
-      className="fixed bottom-4 right-4 z-40 grid size-14 place-items-center rounded-full bg-[#25d366] text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:scale-105 sm:bottom-6 sm:right-6"
+      className="fixed bottom-4 right-4 z-40 flex h-12 items-center gap-2 rounded-full border-2 border-grafite bg-lima pl-3.5 pr-4 text-[14px] font-bold text-grafite transition-transform duration-[160ms] ease-[var(--ease-cit)] hover:-translate-y-0.5 sm:bottom-6 sm:right-6"
     >
-      <MessageCircle aria-hidden className="size-6" strokeWidth={2.2} />
+      <BrandIcon name="pergunta" className="size-5" />
+      <span className="hidden sm:inline">WhatsApp</span>
     </a>
   );
 }

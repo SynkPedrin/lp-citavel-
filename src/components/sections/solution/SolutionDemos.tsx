@@ -1,98 +1,88 @@
 import Image from "next/image";
-import { Check, CircleDashed, Clock3, X } from "lucide-react";
 import { platforms } from "@/config/plans";
-import { IllustrativeBadge } from "@/components/ui/SectionHeading";
+import { BrandIcon } from "@/components/brand/BrandIcon";
+import { SourceChip } from "@/components/brand/Graphics";
 import { cn } from "@/lib/utils";
 
-/** Mini-interfaces demonstrativas (dados fictícios) das três etapas do trabalho. */
+/** Mini-telas da plataforma (papel para ler). Dados fictícios. */
 
 function Frame({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-line-strong bg-graphite shadow-[0_40px_100px_-50px_rgba(0,0,0,0.95)]">
-      <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
-        <p className="truncate text-xs font-medium text-paper/80">{title}</p>
-        <IllustrativeBadge>Ilustrativo</IllustrativeBadge>
+    <div className="rounded-[24px] bg-grafite p-2">
+      <div className="rounded-[18px] bg-app-bg p-4 text-grafite sm:p-5">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <p className="truncate text-[14px] font-bold">{title}</p>
+          <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-info px-2.5 text-[11px] font-bold uppercase tracking-[0.06em]">Exemplo</span>
+        </div>
+        {children}
       </div>
-      <div className="p-4 sm:p-5">{children}</div>
     </div>
   );
 }
 
+const chip = "inline-flex h-6 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-[12px] font-semibold";
+const pill = <span aria-hidden className="h-2.5 w-1.5 rotate-[20deg] rounded-full bg-current opacity-70" />;
+
 export function AnalysisDemo() {
   const mentions = [
-    { name: "Concorrente A", cited: true, pos: "1º" },
-    { name: "Concorrente B", cited: true, pos: "2º" },
-    { name: "Sua marca", cited: false, pos: "—", you: true },
+    { name: "Concorrente A", pos: "1º", cited: true },
+    { name: "Concorrente B", pos: "2º", cited: true },
+    { name: "Sua marca", pos: "—", cited: false, you: true },
   ];
   return (
-    <Frame title="Análise de resposta · ChatGPT">
-      <div data-demo-item className="flex items-center gap-2 text-xs text-mist">
-        <Image src={platforms.chatgpt.logo} alt="" width={512} height={512} className="size-4" />
-        Plataforma analisada: ChatGPT
+    <Frame title="Resposta analisada · ChatGPT">
+      <div data-demo-item className="rounded-[16px] border border-app-line bg-white p-4">
+        <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-app-text-2">
+          <Image src={platforms.chatgpt.logo} alt="" width={512} height={512} className="size-4" />
+          Pergunta testada
+        </p>
+        <p className="mt-2 text-[15px] font-semibold leading-snug">“Qual a melhor empresa de [seu serviço] em [sua cidade]?”</p>
+        <p className="mt-3 text-[14px] leading-relaxed text-app-text-2">
+          …com base no que encontrei, recomendo a <b className="text-grafite">Concorrente A</b> <SourceChip n={1} className="text-[19px]" /> e a{" "}
+          <b className="text-grafite">Concorrente B</b> <SourceChip n={2} className="text-[19px]" />.
+        </p>
       </div>
-      <p data-demo-item className="mt-3 rounded-xl bg-ink/70 px-4 py-3 text-sm text-paper">
-        <span className="text-mist">Pergunta testada: </span>“Qual a melhor empresa de [seu serviço] em [sua cidade]?”
-      </p>
-      <p data-demo-item className="mt-4 text-xs text-mist">Marcas mencionadas na resposta</p>
-      <ul className="mt-2 space-y-2">
+      <ul className="mt-3 divide-y divide-app-line rounded-[16px] border border-app-line bg-white">
         {mentions.map((m) => (
-          <li key={m.name} data-demo-item className={cn("flex items-center justify-between rounded-xl border px-3 py-2.5 text-sm", m.you ? "border-orange/40 bg-orange/5" : "border-line bg-ink/50")}>
-            <span className={m.you ? "font-semibold text-paper" : "text-paper/90"}>{m.name}</span>
+          <li key={m.name} data-demo-item className="flex items-center justify-between gap-3 px-4 py-3 text-[14px]">
+            <span className={m.you ? "font-bold" : undefined}>{m.name}</span>
             <span className="flex items-center gap-3">
-              <span className="font-mono text-xs text-mist">{m.pos}</span>
+              <span className="t-num text-app-text-2">{m.pos}</span>
               {m.cited ? (
-                <span className="inline-flex items-center gap-1 text-xs text-paper/80">
-                  <Check aria-hidden className="size-3.5 text-lime" /> Citada
-                </span>
+                <span className={cn(chip, "bg-app-line text-app-text-2")}>{pill}Citada</span>
               ) : (
-                <span className="inline-flex items-center gap-1 text-xs text-orange">
-                  <X aria-hidden className="size-3.5" /> Não citada
-                </span>
+                <span className={cn(chip, "bg-danger-bg text-[#9b2f19]")}>{pill}Não citada</span>
               )}
             </span>
           </li>
         ))}
       </ul>
-      <dl data-demo-item className="mt-4 grid grid-cols-3 gap-2 border-t border-line pt-4 text-center">
-        {[
-          ["Menções", "2 de 3"],
-          ["Sua posição", "—"],
-          ["Fonte citada", "Concorrente"],
-        ].map(([k, v]) => (
-          <div key={k}>
-            <dt className="text-[0.68rem] text-mist">{k}</dt>
-            <dd className="mt-0.5 font-mono text-sm text-paper">{v}</dd>
-          </div>
-        ))}
-      </dl>
     </Frame>
   );
 }
 
 export function OpportunitiesDemo() {
   const rows = [
-    { title: "Criar FAQ sobre o serviço principal", area: "Conteúdo", priority: "Alta", status: "Em produção" },
-    { title: "Padronizar endereço e telefone nos perfis", area: "Informações", priority: "Alta", status: "Concluído" },
-    { title: "Revisar a página de serviços", area: "Página", priority: "Média", status: "Planejado" },
-    { title: "Buscar citação em guia do setor", area: "Autoridade", priority: "Média", status: "Planejado" },
+    { phase: "U", title: "Padronizar endereço e telefone nos perfis", priority: "Alta", status: "Concluída" },
+    { phase: "L", title: "Criar FAQ sobre o serviço principal", priority: "Alta", status: "Em produção" },
+    { phase: "L", title: "Revisar a página de serviços", priority: "Média", status: "Planejada" },
+    { phase: "S", title: "Buscar citação em guia do setor", priority: "Média", status: "Planejada" },
   ];
   return (
     <Frame title="Oportunidades identificadas · 4 de 8">
-      <div className="hidden grid-cols-[1fr_5.5rem_6rem] gap-3 px-3 pb-2 text-[0.68rem] uppercase tracking-wider text-mist sm:grid">
-        <span>Ação sugerida</span>
-        <span>Prioridade</span>
-        <span>Status</span>
-      </div>
       <ul className="space-y-2">
         {rows.map((r) => (
-          <li key={r.title} data-demo-item className="grid gap-2 rounded-xl border border-line bg-ink/50 px-3 py-3 sm:grid-cols-[1fr_5rem_7.5rem] sm:items-center sm:gap-3">
-            <div>
-              <p className="text-sm text-paper">{r.title}</p>
-              <p className="text-xs text-mist">{r.area}</p>
-            </div>
-            <span className={cn("w-fit rounded-full px-2.5 py-0.5 text-xs", r.priority === "Alta" ? "bg-orange/15 text-orange" : "bg-paper/10 text-paper/80")}>{r.priority}</span>
-            <span className={cn("inline-flex w-fit items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs", r.status === "Concluído" ? "bg-lime/15 text-lime" : "bg-paper/10 text-mist")}>
-              {r.status === "Concluído" ? <Check aria-hidden className="size-3" /> : r.status === "Em produção" ? <Clock3 aria-hidden className="size-3" /> : <CircleDashed aria-hidden className="size-3" />}
+          <li key={r.title} data-demo-item className="flex flex-wrap items-center gap-3 rounded-[14px] border border-app-line bg-white px-3 py-2.5 sm:flex-nowrap">
+            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-grafite text-[12px] font-extrabold text-papel">{r.phase}</span>
+            <span className="min-w-0 flex-1 text-[14px]">{r.title}</span>
+            <span className={cn(chip, r.priority === "Alta" ? "bg-[#fbecd6] text-[#8a5410]" : "bg-app-line text-app-text-2")}>{r.priority}</span>
+            <span
+              className={cn(
+                chip,
+                r.status === "Concluída" ? "bg-grafite text-papel" : r.status === "Em produção" ? "bg-lima text-grafite" : "bg-app-line text-app-text-2",
+              )}
+            >
+              {pill}
               {r.status}
             </span>
           </li>
@@ -118,40 +108,41 @@ export function ExecutionDemo() {
           ["Conteúdos", "4/4"],
           ["Ajustes", "6"],
           ["Perguntas", "30"],
-          ["Próxima revisão", "dia 05"],
+          ["Revisão", "dia 05"],
         ].map(([k, v]) => (
-          <div key={k} data-demo-item className="rounded-xl border border-line bg-ink/50 p-3">
-            <dt className="text-[0.68rem] text-mist">{k}</dt>
-            <dd className="mt-1 font-mono text-lg text-paper">{v}</dd>
+          <div key={k} data-demo-item className="rounded-[14px] border border-app-line bg-white p-3">
+            <dt className="text-[11px] font-bold uppercase tracking-[0.06em] text-app-text-2">{k}</dt>
+            <dd className="t-num mt-1 text-[22px] leading-none">{v}</dd>
           </div>
         ))}
       </dl>
       <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_11rem]">
-        <ul className="space-y-1.5">
+        <ul className="space-y-2 rounded-[14px] border border-app-line bg-white p-3">
           {delivered.map((d) => (
-            <li key={d.label} data-demo-item className="flex items-center gap-2.5 text-sm">
-              <span className={cn("grid size-5 shrink-0 place-items-center rounded-full", d.done ? "bg-lime text-ink" : "border border-line-strong text-mist")}>
-                {d.done ? <Check aria-hidden className="size-3" strokeWidth={3} /> : <Clock3 aria-hidden className="size-3" />}
+            <li key={d.label} data-demo-item className="flex items-center gap-2.5 text-[14px]">
+              <span className={cn("grid size-5 shrink-0 place-items-center rounded-full", d.done ? "bg-lima text-grafite" : "border border-app-line text-app-text-2")}>
+                <BrandIcon name={d.done ? "citada" : "monitoramento"} className="size-3" />
               </span>
-              <span className={d.done ? "text-paper/90" : "text-mist"}>{d.label}</span>
+              <span className={d.done ? undefined : "text-app-text-2"}>{d.label}</span>
             </li>
           ))}
         </ul>
-        <div data-demo-item className="rounded-xl border border-line bg-ink/50 p-3">
-          <p className="text-[0.68rem] text-mist">Presença nas respostas</p>
+        <div data-demo-item className="rounded-[14px] border border-app-line bg-white p-3">
+          <p className="text-[11px] font-bold uppercase tracking-[0.06em] text-app-text-2">Presença</p>
           <svg viewBox="0 0 120 50" className="mt-2 h-14 w-full overflow-visible" role="img" aria-label="Evolução ilustrativa da presença: de 18% para 38% em seis medições">
             <polyline
               points={trend.map((v, i) => `${(i * 120) / (trend.length - 1)},${50 - (v / max) * 50}`).join(" ")}
               fill="none"
-              stroke="#bdf531"
-              strokeWidth="2"
+              stroke="#1c1d1a"
+              strokeWidth="2.2"
               strokeLinejoin="round"
               pathLength={1}
               strokeDasharray="1"
               data-demo-line
             />
+            <circle cx="120" cy={50 - (38 / max) * 50} r="4" fill="#cff24a" stroke="#1c1d1a" strokeWidth="1.6" />
           </svg>
-          <p className="mt-1 font-mono text-xs text-paper">18% → 38%</p>
+          <p className="t-num mt-1 text-[15px]">18% → 38%</p>
         </div>
       </div>
     </Frame>

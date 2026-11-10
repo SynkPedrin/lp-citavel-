@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, DM_Mono } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { site } from "@/content/site";
 import { getSiteEnv } from "@/lib/env";
 import "./globals.css";
@@ -12,12 +12,6 @@ const archivo = Archivo({
   display: "swap",
 });
 
-const dmMono = DM_Mono({
-  variable: "--font-dm-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
 
 const isPreview = getSiteEnv() !== "production";
 
@@ -58,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060807",
+  themeColor: "#1c1d1a",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -66,11 +60,19 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${archivo.variable} ${dmMono.variable} antialiased`}>
-      <body className="min-h-svh bg-ink text-paper">
+    <html lang="pt-BR" className={`${archivo.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Ativa o motion antes da primeira pintura (respeita prefers-reduced-motion). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')}catch(e){}",
+          }}
+        />
+      </head>
+      <body className="t-dark min-h-svh">
         <a
           href="#conteudo"
-          className="sr-only z-[100] rounded-full bg-lime px-5 py-3 font-mono text-xs uppercase tracking-widest text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-[100] rounded-full bg-lima px-5 py-3 text-sm font-bold text-grafite focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Pular para o conteúdo
         </a>

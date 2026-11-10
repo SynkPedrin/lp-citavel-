@@ -4,26 +4,26 @@ import { platformsStrip } from "@/content/sections";
 
 export function PlatformsStrip() {
   return (
-    <section aria-labelledby="plataformas-title" className="border-y border-line bg-void/40 py-14 sm:py-16">
-      <div className="shell">
-        <h2 id="plataformas-title" data-reveal className="text-center font-mono text-xs uppercase tracking-[0.18em] text-mist">
+    <section aria-labelledby="plataformas-title" className="t-carvao py-12 sm:py-14">
+      <div className="shell flex flex-col gap-7 lg:flex-row lg:items-center lg:gap-14">
+        <h2 id="plataformas-title" data-reveal className="t-label max-w-[16rem] shrink-0 text-fg-2">
           {platformsStrip.title}
         </h2>
-        <ul data-reveal className="mx-auto mt-8 flex max-w-5xl flex-wrap items-center justify-center gap-x-8 gap-y-5 sm:gap-x-12">
+        <ul data-reveal className="flex flex-1 flex-wrap items-center gap-x-8 gap-y-5 lg:justify-between">
           {platformOrder.map((id) => {
             const p = platforms[id];
             return (
-              <li key={id} className="group flex items-center gap-2.5 opacity-80 transition-opacity duration-300 hover:opacity-100">
-                <span className={p.wide ? "h-7 w-[7.4rem]" : "size-7"}>
-                  <Image src={p.logo} alt={p.wide ? p.name : ""} width={p.w} height={p.h} sizes={p.wide ? "120px" : "28px"} className="h-full w-full object-contain" />
+              <li key={id} className="flex items-center gap-2.5">
+                <span className={p.wide ? "h-6 w-[6.4rem]" : "size-6"}>
+                  <Image src={p.logo} alt={p.wide ? p.name : ""} width={p.w} height={p.h} sizes={p.wide ? "104px" : "24px"} className="h-full w-full object-contain" />
                 </span>
-                {!p.wide && <span className="text-base font-semibold text-paper/90">{p.name}</span>}
+                {!p.wide && <span className="text-[15px] font-semibold text-fg">{p.name}</span>}
               </li>
             );
           })}
         </ul>
-        <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-mist/70">{platformsStrip.note}</p>
       </div>
+      <p className="shell mt-6 text-xs text-fg-3">{platformsStrip.note}</p>
     </section>
   );
 }

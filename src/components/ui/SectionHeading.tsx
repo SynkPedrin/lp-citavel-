@@ -3,40 +3,46 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   eyebrow?: string;
-  /** Uma ou duas linhas; `accentLine` destaca uma delas em verde-lima. */
+  /** Linhas do título (caixa normal, −4%). */
   lines: readonly string[];
-  accentLine?: number;
+  /** Linha com marca-texto lima (uma expressão por bloco). */
+  markLine?: number;
   sub?: ReactNode;
   align?: "center" | "left";
+  /** Layout do brand book: título à esquerda, texto de apoio à direita. */
+  split?: boolean;
   as?: "h2" | "h3";
   id?: string;
   className?: string;
   titleClassName?: string;
 };
 
-/** Cabeçalho de seção comercial: eyebrow + título + subtítulo. */
-export function SectionHeading({ eyebrow, lines, accentLine, sub, align = "center", as: Tag = "h2", id, className, titleClassName }: Props) {
+/** Cabeçalho de capítulo no padrão do Brand Book: rótulo · título · lede. */
+export function SectionHeading({ eyebrow, lines, markLine, sub, align = "left", split = false, as: Tag = "h2", id, className, titleClassName }: Props) {
   const center = align === "center";
   return (
-    <header className={cn(center ? "mx-auto max-w-3xl text-center" : "max-w-3xl", className)}>
-      {eyebrow && (
-        <p data-reveal className={cn("eyebrow mb-4 flex items-center gap-2 text-lime", center && "justify-center")}>
-          {eyebrow}
-        </p>
+    <header
+      className={cn(
+        split ? "grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-end lg:gap-16" : center ? "mx-auto max-w-3xl text-center" : "max-w-3xl",
+        className,
       )}
-      <Tag
-        id={id}
-        data-reveal
-        className={cn("font-display text-[clamp(1.75rem,3.6vw,3rem)] font-extrabold uppercase leading-[1.02] tracking-[-0.015em]", titleClassName)}
-      >
-        {lines.map((line, i) => (
-          <span key={line} className={cn("block", i === accentLine && "text-lime")}>
-            {line}{" "}
-          </span>
-        ))}
-      </Tag>
+    >
+      <div>
+        {eyebrow && (
+          <p data-reveal className="t-label mb-4 text-fg-3">
+            {eyebrow}
+          </p>
+        )}
+        <Tag id={id} data-reveal className={cn("t-title text-[clamp(2.1rem,4.6vw,4.4rem)]", titleClassName)}>
+          {lines.map((line, i) => (
+            <span key={line} className="block">
+              {i === markLine ? <span className="mark">{line}</span> : line}{" "}
+            </span>
+          ))}
+        </Tag>
+      </div>
       {sub && (
-        <p data-reveal className={cn("mt-5 text-base leading-relaxed text-mist sm:text-lg", center && "mx-auto max-w-2xl")}>
+        <p data-reveal className={cn("text-[clamp(1rem,1.3vw,1.2rem)] leading-relaxed text-fg-2", center && !split && "mx-auto mt-5 max-w-2xl", !center && !split && "mt-5 max-w-2xl")}>
           {sub}
         </p>
       )}
@@ -46,13 +52,8 @@ export function SectionHeading({ eyebrow, lines, accentLine, sub, align = "cente
 
 export function IllustrativeBadge({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-orange/40 bg-orange/10 px-2.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-orange",
-        className,
-      )}
-    >
-      <span aria-hidden className="size-1.5 rounded-full bg-orange" />
+    <span className={cn("inline-flex h-6 items-center gap-1.5 whitespace-nowrap rounded-full bg-info px-2.5 text-[11px] font-bold uppercase tracking-[0.06em] text-grafite", className)}>
+      <span aria-hidden className="h-2.5 w-1.5 rotate-[20deg] rounded-full bg-grafite/60" />
       {children}
     </span>
   );

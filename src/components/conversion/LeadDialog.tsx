@@ -50,19 +50,19 @@ export function LeadDialog({
       onClick={(e) => e.target === ref.current && ref.current?.close()}
       aria-labelledby="lead-dialog-title"
       data-lenis-prevent
-      className="m-auto max-h-[calc(100svh-1.5rem)] w-[min(40rem,calc(100vw-1.5rem))] overflow-y-auto rounded-3xl border border-line-strong bg-graphite p-0 text-paper shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)] backdrop:bg-black/70 backdrop:backdrop-blur-sm open:animate-[dialog-in_0.35s_var(--ease-out-expo)]"
+      className="p-paper m-auto max-h-[calc(100svh-1.5rem)] w-[min(40rem,calc(100vw-1.5rem))] overflow-y-auto rounded-[28px] p-0 shadow-[0_24px_48px_rgba(28,29,26,0.12)] backdrop:bg-grafite/80 open:animate-[dialog-in_0.64s_var(--ease-cit)]"
     >
       {prefill && (
         <div className="p-5 sm:p-8">
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
-              <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-lime">
+              <p className="t-label text-chumbo">
                 {planLabel ? `Plano ${planLabel} · próximo passo` : "Diagnóstico gratuito · etapa 2 de 2"}
               </p>
-              <h2 id="lead-dialog-title" className="mt-2 font-display text-2xl font-extrabold leading-tight sm:text-3xl">
+              <h2 id="lead-dialog-title" className="t-title mt-2 text-[clamp(1.7rem,4vw,2.3rem)]">
                 {planLabel ? `Vamos conversar sobre o plano ${planLabel}` : "Para onde enviamos seu diagnóstico?"}
               </h2>
-              <p className="mt-2 text-sm text-mist">
+              <p className="mt-3 text-[15px] leading-relaxed text-chumbo">
                 {planLabel
                   ? "Começamos pelo diagnóstico gratuito da sua marca e apresentamos a proposta do plano escolhido."
                   : "Nossa equipe analisa como sua empresa aparece nas IAs e retorna com o que encontrou."}
@@ -72,7 +72,7 @@ export function LeadDialog({
               type="button"
               onClick={() => ref.current?.close()}
               aria-label="Fechar"
-              className="grid size-10 shrink-0 place-items-center rounded-full border border-line-strong text-mist transition-colors hover:border-lime hover:text-lime"
+              className="grid size-10 shrink-0 place-items-center rounded-full bg-grafite text-papel transition-colors hover:bg-carvao"
             >
               <X className="size-4" aria-hidden />
             </button>

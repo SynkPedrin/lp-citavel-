@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertTriangle, CheckCircle2, Loader2, MessageCircle } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
+import { BrandIcon } from "@/components/brand/BrandIcon";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { site, whatsappLink } from "@/content/site";
@@ -28,7 +29,7 @@ type Status =
   | { kind: "error"; message: string; fallbackHref: string };
 
 const inputBase =
-  "h-12 w-full rounded-xl border border-line-strong bg-ink/80 px-4 text-base text-paper placeholder:text-mist/50 transition-[border-color,box-shadow] duration-300 focus:border-lime focus:shadow-[0_0_0_4px_rgba(189,245,49,0.12)] focus:outline-none aria-[invalid=true]:border-orange sm:h-[3.25rem]";
+  "h-[52px] w-full rounded-[12px] border border-[#cfcfc7] bg-white px-4 text-base text-grafite placeholder:text-chumbo/70 transition-[border-color,box-shadow] duration-[160ms] focus:border-grafite focus:shadow-[0_0_0_3px_#cff24a] focus:outline-none aria-[invalid=true]:border-erro";
 
 type Ids = { id: string; describedBy?: string };
 
@@ -49,13 +50,13 @@ function Field({
   const errId = `${id}-err`;
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-1.5 flex items-baseline justify-between gap-3 text-sm font-medium text-paper/90">
+      <label htmlFor={id} className="mb-1.5 flex items-baseline justify-between gap-3 text-[14px] font-bold text-grafite">
         {label}
-        {hint && <span className="text-xs font-normal text-mist/70">{hint}</span>}
+        {hint && <span className="text-xs font-normal text-chumbo">{hint}</span>}
       </label>
       {children({ id, describedBy: error ? errId : undefined })}
       {error && (
-        <p id={errId} className="mt-1.5 flex items-center gap-1.5 text-sm text-orange">
+        <p id={errId} className="mt-1.5 flex items-center gap-1.5 text-[13px] font-semibold text-[#a8341c]">
           <AlertTriangle aria-hidden className="size-3.5 shrink-0" />
           {error}
         </p>
@@ -171,25 +172,25 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
 
   if (status.kind === "sent" || status.kind === "whatsapp") {
     return (
-      <div ref={statusRef} tabIndex={-1} role="status" className="rounded-2xl border border-lime/40 bg-lime/[0.06] p-6 outline-none sm:p-8">
+      <div ref={statusRef} tabIndex={-1} role="status" className="rounded-[20px] bg-white p-6 text-grafite outline-none sm:p-8">
         {status.kind === "sent" ? (
           <>
-            <CheckCircle2 aria-hidden className="size-9 text-lime" />
-            <h3 className="mt-4 font-display text-2xl font-extrabold">Pedido recebido.</h3>
-            <p className="mt-2 text-base leading-relaxed text-mist">
+            <span className="grid size-12 place-items-center rounded-full bg-lima text-grafite"><BrandIcon name="citada" className="size-6" /></span>
+            <h3 className="t-title mt-5 text-[2rem]">Pedido recebido.</h3>
+            <p className="mt-3 text-base leading-relaxed text-chumbo">
               Seus dados chegaram à equipe da Citável. Vamos entrar em contato pelo WhatsApp ou e-mail informados para dar
               continuidade ao diagnóstico.
             </p>
           </>
         ) : (
           <>
-            <MessageCircle aria-hidden className="size-9 text-lime" />
-            <h3 className="mt-4 font-display text-2xl font-extrabold">Falta só enviar no WhatsApp.</h3>
-            <p className="mt-2 text-base leading-relaxed text-mist">
+            <span className="grid size-12 place-items-center rounded-full bg-lima text-grafite"><BrandIcon name="pergunta" className="size-6" /></span>
+            <h3 className="t-title mt-5 text-[2rem]">Falta só enviar no WhatsApp.</h3>
+            <p className="mt-3 text-base leading-relaxed text-chumbo">
               Abrimos o WhatsApp oficial da Citável com sua mensagem pronta. O pedido só chega à nossa equipe quando você tocar
               em enviar.
             </p>
-            <ButtonLink href={status.href} className="mt-5" onClick={() => track("whatsapp_click", { origin })}>
+            <ButtonLink href={status.href} variant="dark" className="mt-6" onClick={() => track("whatsapp_click", { origin })}>
               Abrir o WhatsApp
             </ButtonLink>
           </>
@@ -197,7 +198,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
         <button
           type="button"
           onClick={() => setStatus({ kind: "idle" })}
-          className="mt-5 block text-sm text-mist underline-offset-4 hover:text-paper hover:underline"
+          className="mt-5 block text-sm font-semibold text-chumbo underline underline-offset-4 hover:text-grafite"
         >
           Voltar ao formulário
         </button>
@@ -250,7 +251,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
         </div>
 
         <div className="sm:col-span-2">
-          <label className="flex cursor-pointer gap-3 text-sm leading-relaxed text-mist">
+          <label className="flex cursor-pointer gap-3 text-[14px] leading-relaxed text-chumbo">
             <input
               type="checkbox"
               className="check-input mt-0.5"
@@ -260,7 +261,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
             />
             <span>
               Autorizo a Citável a usar estes dados para realizar o diagnóstico e entrar em contato, conforme a{" "}
-              <a href={site.links.privacy} target="_blank" rel="noopener noreferrer" className="text-paper underline underline-offset-4 hover:text-lime">
+              <a href={site.links.privacy} target="_blank" rel="noopener noreferrer" className="font-semibold text-grafite underline underline-offset-4">
                 Política de Privacidade
                 <span className="sr-only"> (abre em nova aba)</span>
               </a>
@@ -268,7 +269,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
             </span>
           </label>
           {errors.consentimento && (
-            <p id={`consent-err-${origin}`} className="mt-1.5 flex items-center gap-1.5 text-sm text-orange">
+            <p id={`consent-err-${origin}`} className="mt-1.5 flex items-center gap-1.5 text-[13px] font-semibold text-[#a8341c]">
               <AlertTriangle aria-hidden className="size-3.5" />
               {errors.consentimento.message}
             </p>
@@ -276,9 +277,9 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
         </div>
 
         {status.kind === "error" && (
-          <div ref={statusRef} tabIndex={-1} role="alert" className="rounded-xl border border-orange/50 bg-orange/10 p-4 text-sm text-paper outline-none sm:col-span-2">
+          <div ref={statusRef} tabIndex={-1} role="alert" className="rounded-[12px] bg-danger-bg p-4 text-sm text-grafite outline-none sm:col-span-2">
             <p className="flex items-start gap-2">
-              <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-orange" />
+              <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-erro" />
               {status.message}
             </p>
             <a
@@ -286,7 +287,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track("whatsapp_click", { origin })}
-              className="mt-2 inline-block font-medium text-lime underline-offset-4 hover:underline"
+              className="mt-2 inline-block font-bold text-grafite underline underline-offset-4"
             >
               Enviar pelo WhatsApp oficial
             </a>
@@ -294,7 +295,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
         )}
 
         <div className="sm:col-span-2">
-          <Button type="submit" size="lg" className="w-full" icon={!submitting}>
+          <Button type="submit" variant="lima" className="w-full" arrow={!submitting}>
             {submitting ? (
               <span className="flex items-center gap-2">
                 <Loader2 aria-hidden className="size-4 animate-spin" /> Enviando…
@@ -305,7 +306,7 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
               submitLabel
             )}
           </Button>
-          <p className="mt-3 text-center text-xs leading-relaxed text-mist/80">
+          <p className="mt-3 text-center text-[13px] leading-relaxed text-chumbo">
             {delivery === "whatsapp"
               ? "Abrimos o WhatsApp oficial da Citável com seus dados preenchidos. Nada é enviado antes da sua confirmação."
               : "Sem compromisso. Nossa equipe entra em contato para dar continuidade à análise."}

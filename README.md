@@ -1,9 +1,11 @@
-# CITÁVEL™ — Landing Page (Conversion First)
+# CITÁVEL — Landing Page
 
 Landing page comercial da CITÁVEL™ (Desigual IA Labs): reputação de marcas em inteligência artificial.
 A página mostra o que é vendido, quanto custa e o que é entregue, e leva ao **diagnóstico gratuito**.
 
-Next.js 16 (App Router, Cache Components) · React 19 · TypeScript estrito · Tailwind CSS 4 · GSAP + ScrollTrigger · Lenis · Remotion 4 · React Hook Form + Zod · Radix (padrão shadcn/ui) · Lucide.
+Next.js 16 (App Router, Cache Components) · React 19 · TypeScript estrito · Tailwind CSS 4 · GSAP + ScrollTrigger + CustomEase · Lenis · Remotion 4 · React Hook Form + Zod · Radix (padrão shadcn/ui).
+
+Identidade visual: **CITÁVEL Brand Book · Volume 01** (ver seção “Sistema de marca”).
 
 ## Executar
 
@@ -15,9 +17,37 @@ npm run build && npm run start    # produção
 npm run typecheck && npm run lint
 ```
 
+
+## Sistema de marca (Brand Book · Volume 01)
+
+A interface aplica o brand book. Ele fica na pasta `CITÁVEL Brand Book (1)/`, que é ignorada pelo git por ser material interno.
+
+| Camada | Implementação |
+|---|---|
+| Paleta | `grafite #1C1D1A` (base) · `papel #F1F0EA` · `lima #CFF24A` (ação/ênfase) · `carvão #2A2B27` · `concreto` · `chumbo` · `névoa` · `gelo`, e os tokens de plataforma `--cit-*` em `src/app/globals.css` |
+| Faixas | Cada capítulo é uma faixa de cor inteira (`.t-dark`, `.t-paper`, `.t-nevoa`, `.t-lima`, `.t-carvao`). Painéis (`.p-*`) herdam as cores semânticas `fg / fg-2 / fg-3 / line / surface` |
+| Tipografia | Somente **Archivo** variável. Comprimida 64 (`t-display`), normal (`t-title`, −4%), número largura 86 (`t-num`), rótulo 12/700/+8% (`t-label`). O wordmark usa largura 112 |
+| Logo | `src/components/brand/Logo.tsx`: símbolo vetorial (duas aspas a 20°), wordmark com o acento do Á em pílula e lockup (1,36× a altura das maiúsculas), em versões principal e positiva |
+| Grafismos | `src/components/brand/Graphics.tsx`: pílula/etiqueta, marca-texto (`.mark`), chip de fonte, Onda PULSO, recorte, símbolo que cresce da base |
+| Ícones | `src/components/brand/BrandIcon.tsx`: os 16 ícones da marca (24 px, traço 2, diagonais a 20°). O Lucide fica só para utilitários (fechar, menu, alerta) |
+| Motion | “Sobe, firma e para”: curva `cubic-bezier(.2,.8,.2,1)` (CustomEase `cit`), entradas de 640 ms, sequência de 80 ms. O repouso é sempre visível, porque os reveals só animam transform; os números contam até o valor e o marca-texto cresce ao entrar na tela. Nada gira, nada quica |
+| Plataforma | As demos de “Como funciona” seguem o padrão do brand book: papel para ler, lima só em ação e destaque, chips de status com forma + texto |
+| Problema | Exemplo de resposta de IA (fictício) com as marcas citadas e o lugar tracejado vazio para “Sua empresa” (gesto “Grade” do brand book), mais a lista editorial dos três problemas |
+
+Regras aplicadas:
+- “Grafite é base. Lima é ação.”
+- Um primário lima por bloco; nas faixas claras, o botão principal é grafite.
+- Nunca lima sobre papel.
+- Uma expressão com marca-texto por bloco.
+- Sem brilho, sombra ou gradiente no logo.
+
+### Planos e a paleta
+
+O brand book não tem laranja nem cyan. Por isso os planos usam os painéis da paleta oficial: Essencial em **carvão**, Profissional em **lima** (“Mais indicado”) e Completo em **papel**. As texturas antigas dos planos saíram do site, e os originais continuam em `assets/`.
+
 ## Jornada da página
 
-Header → **Hero** (campo de site + preview de relatório) → Faixa de IAs → Problema → Como funciona (Analisamos / Identificamos / Executamos) → O que fazemos → **Planos** → **Comparativo** → Método PULSO™ → Prova (Case #0) → FAQ → Diagnóstico gratuito → Footer.
+Header → **Hero** (chat: cole o site → busca → WhatsApp) → Faixa de IAs → Problema → Como funciona (Analisamos / Identificamos / Executamos) → O que fazemos → **Planos** → **Comparativo** → Método PULSO™ → Prova (Case #0) → FAQ → Diagnóstico gratuito → Footer.
 
 ## Planos: fonte única
 
@@ -45,7 +75,7 @@ Todos os CTAs abrem o **mesmo formulário** (modal `<dialog>` acessível) preser
 
 | CTA | Comportamento |
 |---|---|
-| Hero | Valida a URL e abre a etapa 2 com o site preenchido. O foco vai para “Nome”. |
+| Hero (chat) | A pessoa cola o site, a URL é validada e uma animação de busca mostra o pedido sendo preparado: leitura do endereço, perguntas do setor e IAs que serão consultadas. Nenhum resultado é simulado. Em seguida aparece “Receber diagnóstico pelo WhatsApp”, que abre o WhatsApp oficial com o site na mensagem. O link “Prefiro preencher um formulário” abre o formulário com o site preenchido. |
 | Header / menu mobile / Problema | Abre o formulário. |
 | “Quero o …” e “Escolher plano” | Abre o formulário com o plano escolhido pré-selecionado. |
 | O que fazemos | Rola até o formulário final. |
@@ -83,16 +113,17 @@ A página é pré-renderizada no build. Depois de mudar variáveis, rode `npm ru
 - Entradas curtas com `opacity`/`transform` (`data-reveal`). O conteúdo continua focável e na ordem de Tab.
 - Hero sem animação bloqueante: o formulário fica utilizável imediatamente. O preview troca de aba sozinho até a primeira interação.
 - Método PULSO: 5 etapas lado a lado e uma linha que acompanha o scroll. Não há pin de várias telas. No mobile, cards verticais.
-- Remotion:
-  - `CitavelHeroFilm` fica como fundo sutil do hero, **só no desktop**, porque no mobile o LCP precisa continuar sendo o texto;
-  - `PulsoFinal` aparece discreto no CTA final;
-  - `OgCard` gera a imagem Open Graph;
-  - `ReputationNetwork` e `CitavelHeroFilmPortrait` continuam em `remotion/` para reuso, sem estarem publicados.
-- Com `prefers-reduced-motion` não há vídeos, troca automática de abas nem animações em loop.
+- Remotion: as peças foram refeitas na identidade nova.
+  - `Assinatura`: animação do logo (16:9 e 9:16), com as pílulas crescendo da base, as letras subindo em 80 ms e o marca-texto em “Seja a resposta.”;
+  - `OgCard`: imagem de compartilhamento;
+  - `LogoLockup`: PNG positivo usado no JSON-LD.
+  - Os filmes da estética antiga (neon e brilho) foram removidos, e o site não carrega vídeo nenhum.
+- Com `prefers-reduced-motion` não há troca automática de abas nem loops, e o marca-texto já aparece preenchido.
 
 ```bash
 npm run remotion:studio
-npm run render:media     # hero-film, pulso-final, poster e imagem OG
+npm run render:media       # imagem OG + logo PNG
+npm run render:assinatura  # assinatura animada em out/brand/ (16:9 e 9:16)
 ```
 
 `remotion.config.ts` usa o Chrome for Testing, porque o headless shell não dispara `requestAnimationFrame` em alguns macOS recentes.
@@ -100,10 +131,7 @@ npm run render:media     # hero-film, pulso-final, poster e imagem OG
 ## Assets
 
 - Os originais ficam em `assets/` e não são alterados. As cópias otimizadas são geradas com `npm run assets` em `public/assets/`.
-- **Os nomes dos arquivos de plano não correspondem às cores:** `plano profissional.png` é cyan e `plano completo.png` é laranja. Por isso as texturas foram mapeadas pela cor real:
-  - Essencial → `texture-emerald.jpg`;
-  - Profissional (laranja) → `texture-orange.jpg`;
-  - Completo (cyan) → `texture-cyan.jpg`.
+- O logo, o favicon e o ícone Apple são gerados a partir do símbolo vetorial do brand book. Os PNGs antigos (`LOGO CITAVEL.png`, `ICONE CITAVEL.png`) e as texturas ficam só em `assets/`, como referência.
 - Logos de IA: ChatGPT, Gemini, Perplexity, Google IA, Claude, Copilot e Grok. Ollama foi retirado da página. Os logos indicam as plataformas analisadas, sem parceria nem endosso.
 
 ## Estrutura

@@ -13,7 +13,7 @@ export function JsonLd() {
     name: site.plainName,
     alternateName: site.name,
     url: site.url,
-    logo: `${site.url}/assets/brand/logo-citavel.png`,
+    logo: `${site.url}/brand/citavel-logo.png`,
     description: site.shortDescription,
     parentOrganization: { "@type": "Organization", name: site.company.name, url: site.company.url },
     address: {

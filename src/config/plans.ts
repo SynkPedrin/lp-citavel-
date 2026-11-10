@@ -9,17 +9,19 @@
  */
 
 export type PlanId = "essencial" | "profissional" | "completo";
-export type PlanTheme = "lime" | "orange" | "cyan";
+/** Painel da paleta oficial: carvão (entrada), lima (recomendado), papel (completo). */
+export type PlanTheme = "carvao" | "lima" | "papel";
 export type PlatformId = "chatgpt" | "gemini" | "perplexity" | "google-ai" | "claude" | "copilot" | "grok";
 
-export const platforms: Record<PlatformId, { name: string; logo: string; w: number; h: number; wide?: boolean }> = {
+/** `mono`: logo monocromático claro (processado para fundo escuro); inverte em superfícies claras. */
+export const platforms: Record<PlatformId, { name: string; logo: string; w: number; h: number; wide?: boolean; mono?: boolean }> = {
   chatgpt: { name: "ChatGPT", logo: "/assets/ai/chatgpt.webp", w: 512, h: 512 },
   gemini: { name: "Gemini", logo: "/assets/ai/gemini.png", w: 625, h: 625 },
   perplexity: { name: "Perplexity", logo: "/assets/ai/perplexity.webp", w: 512, h: 512 },
   "google-ai": { name: "Google IA", logo: "/assets/ai/google-ai.png", w: 848, h: 194, wide: true },
   claude: { name: "Claude", logo: "/assets/ai/claude.webp", w: 700, h: 700 },
   copilot: { name: "Copilot", logo: "/assets/ai/copilot.webp", w: 563, h: 512 },
-  grok: { name: "Grok", logo: "/assets/ai/grok.png", w: 512, h: 492 },
+  grok: { name: "Grok", logo: "/assets/ai/grok.png", w: 512, h: 492, mono: true },
 };
 
 /** Ordem de exibição das plataformas (faixa de logos e chips). */
@@ -29,8 +31,6 @@ export type Plan = {
   id: PlanId;
   name: string;
   theme: PlanTheme;
-  /** Textura mapeada pela cor real do arquivo (ver README). */
-  texture: string;
   monthlyPrice: number;
   audience: string;
   platforms: PlatformId[];
@@ -51,8 +51,7 @@ export const plans: readonly Plan[] = [
   {
     id: "essencial",
     name: "Essencial",
-    theme: "lime",
-    texture: "/assets/textures/texture-emerald.jpg",
+    theme: "carvao",
     monthlyPrice: 497,
     audience: "Para empresas que estão começando a construir sua presença nas IAs.",
     platforms: ["chatgpt", "gemini"],
@@ -73,8 +72,7 @@ export const plans: readonly Plan[] = [
   {
     id: "profissional",
     name: "Profissional",
-    theme: "orange",
-    texture: "/assets/textures/texture-orange.jpg",
+    theme: "lima",
     monthlyPrice: 897,
     audience: "Para empresas que querem acompanhar concorrentes e fortalecer sua presença com mais conteúdo e estratégia.",
     platforms: ["chatgpt", "gemini", "perplexity", "google-ai"],
@@ -98,8 +96,7 @@ export const plans: readonly Plan[] = [
   {
     id: "completo",
     name: "Completo",
-    theme: "cyan",
-    texture: "/assets/textures/texture-cyan.jpg",
+    theme: "papel",
     monthlyPrice: 1297,
     audience: "Para empresas com mais serviços, unidades ou cidades que precisam ampliar a estratégia de reputação.",
     platforms: ["chatgpt", "gemini", "perplexity", "google-ai", "claude", "copilot", "grok"],

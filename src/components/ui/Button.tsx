@@ -1,44 +1,42 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { ArrowUpRight } from "lucide-react";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Botões CITÁVEL: pílula, Archivo 700, caixa normal.
+ * Um primário por tela. Lima só para a ação principal. Hover: sobe 2 px (nada gira, nada brilha).
+ */
 export const buttonVariants = cva(
-  "group/btn relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full font-mono text-[0.78rem] font-medium uppercase tracking-[0.12em] transition-[transform,background-color,color,box-shadow,border-color] duration-500 ease-[var(--ease-out-expo)] focus-visible:outline-offset-4 disabled:pointer-events-none disabled:opacity-60 active:scale-[0.98]",
+  "group/btn inline-flex max-w-full items-center justify-center gap-3 rounded-full text-center font-bold leading-tight sm:shrink-0 sm:whitespace-nowrap transition-[transform,background-color,color,border-color] duration-[160ms] ease-[var(--ease-cit)] hover:-translate-y-0.5 active:translate-y-0 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary:
-          "bg-lime text-ink shadow-[0_0_0_0_rgba(189,245,49,0)] hover:shadow-[0_0_40px_-4px_rgba(189,245,49,0.65)] hover:-translate-y-0.5",
-        secondary: "border border-line-strong text-paper hover:border-lime hover:text-lime",
-        ghost: "text-paper hover:text-lime",
+        lima: "bg-lima text-grafite",
+        dark: "bg-grafite text-papel",
+        paper: "bg-papel text-grafite",
+        outline: "border border-current bg-transparent text-fg",
+        text: "bg-transparent px-0 text-fg hover:translate-y-0 hover:underline underline-offset-4",
       },
       size: {
-        md: "h-12 px-6",
-        lg: "h-14 px-7 sm:h-16 sm:px-9 text-[0.8rem]",
-        sm: "h-10 px-5 text-[0.7rem]",
+        lg: "min-h-[52px] px-6 py-3 text-base",
+        md: "min-h-10 px-5 py-2 text-[15px]",
+        sm: "min-h-8 px-4 py-1.5 text-[13px]",
       },
     },
-    defaultVariants: { variant: "primary", size: "md" },
+    defaultVariants: { variant: "lima", size: "lg" },
   },
 );
 
 type Variants = VariantProps<typeof buttonVariants>;
 
-function Inner({ children, icon = true }: { children: ReactNode; icon?: boolean }) {
+function Inner({ children, arrow = true }: { children: ReactNode; arrow?: boolean }) {
   return (
     <>
-      {/* varredura de luz no hover */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover/btn:translate-x-full"
-      />
-      <span className="relative">{children}</span>
-      {icon && (
-        <ArrowUpRight
-          aria-hidden
-          className="relative size-4 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
-        />
+      <span>{children}</span>
+      {arrow && (
+        <span aria-hidden className="transition-transform duration-[320ms] ease-[var(--ease-cit)] group-hover/btn:translate-x-0.5">
+          →
+        </span>
       )}
     </>
   );
@@ -48,18 +46,14 @@ export function ButtonLink({
   className,
   variant,
   size,
-  icon,
+  arrow,
   children,
   ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement> & Variants & { icon?: boolean }) {
+}: AnchorHTMLAttributes<HTMLAnchorElement> & Variants & { arrow?: boolean }) {
   const external = props.href?.startsWith("http");
   return (
-    <a
-      className={cn(buttonVariants({ variant, size }), className)}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      {...props}
-    >
-      <Inner icon={icon}>{children}</Inner>
+    <a className={cn(buttonVariants({ variant, size }), className)} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} {...props}>
+      <Inner arrow={arrow}>{children}</Inner>
       {external && <span className="sr-only"> (abre em nova aba)</span>}
     </a>
   );
@@ -69,13 +63,13 @@ export function Button({
   className,
   variant,
   size,
-  icon,
+  arrow,
   children,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & Variants & { icon?: boolean }) {
+}: ButtonHTMLAttributes<HTMLButtonElement> & Variants & { arrow?: boolean }) {
   return (
     <button className={cn(buttonVariants({ variant, size }), className)} {...props}>
-      <Inner icon={icon}>{children}</Inner>
+      <Inner arrow={arrow}>{children}</Inner>
     </button>
   );
 }

@@ -43,3 +43,9 @@ next-env.d.ts
 
 # remotion
 node_modules/.remotion
+
+# renders de marca (Remotion)
+/out/
+
+# brand book (material interno de referência, não publicar)
+/CITÁVEL Brand Book*/

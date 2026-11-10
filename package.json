@@ -10,12 +10,10 @@
     "typecheck": "tsc --noEmit",
     "assets": "node scripts/prepare-assets.mjs",
     "remotion:studio": "remotion studio",
-    "render:hero": "remotion render CitavelHeroFilm public/media/hero-film.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=27 --width=1280 --height=720",
-    "render:network": "remotion render ReputationNetwork public/media/reputation-network.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=28 --width=1280 --height=720",
-    "render:final": "remotion render PulsoFinal public/media/pulso-final.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=28 --width=1280 --height=720",
-    "render:posters": "remotion still PulsoFinal public/media/pulso-final-poster.jpg --frame=150 --width=1280 --height=720 --image-format=jpeg --jpeg-quality=82",
-    "render:og": "remotion still OgCard src/app/opengraph-image.jpg --image-format=jpeg --jpeg-quality=88",
-    "render:media": "npm run render:hero && npm run render:final && npm run render:posters && npm run render:og"
+    "render:og": "remotion still OgCard src/app/opengraph-image.jpg --image-format=jpeg --jpeg-quality=90",
+    "render:logo": "remotion still LogoLockup public/brand/citavel-logo.png --image-format=png",
+    "render:assinatura": "remotion render Assinatura out/brand/citavel-assinatura.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=20 && remotion render AssinaturaVertical out/brand/citavel-assinatura-9x16.mp4 --codec=h264 --x264-preset=slow --pixel-format=yuv420p --crf=20",
+    "render:media": "npm run render:og && npm run render:logo"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -35,7 +33,6 @@
   },
   "devDependencies": {
     "@remotion/cli": "4.0.539",
-    "@remotion/google-fonts": "4.0.539",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
