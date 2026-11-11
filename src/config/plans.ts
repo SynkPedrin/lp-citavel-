@@ -42,6 +42,8 @@ export type Plan = {
   /** Linha "Tudo do plano anterior", quando houver. */
   inherits?: string;
   firstMonth: string[];
+  /** Três destaques curtos exibidos no card (o detalhe completo fica no comparativo). */
+  highlights: [string, string, string];
   /** Tag de posicionamento comercial (recomendação, não popularidade). */
   tag?: string;
   cta: string;
@@ -67,6 +69,7 @@ export const plans: readonly Plan[] = [
       "Estruturação completa do Perfil da Empresa no Google",
       "Ajustes básicos no site: dados da empresa, serviços e contatos iguais em todo lugar",
     ],
+    highlights: ["Relatório de presença e concorrentes", "Perfil da Empresa no Google atualizado", "Diagnóstico inicial no 1º mês"],
     cta: "Quero o Essencial",
   },
   {
@@ -91,6 +94,7 @@ export const plans: readonly Plan[] = [
       "Revisão das páginas de serviço",
     ],
     tag: "Mais indicado",
+    highlights: ["Tudo do Essencial", "Comparativo com 3 concorrentes", "Reunião mensal de resultados"],
     cta: "Quero o Profissional",
   },
   {
@@ -109,6 +113,7 @@ export const plans: readonly Plan[] = [
       "Acompanhamento de visitas e contatos vindos das IAs, conforme os dados tecnicamente disponíveis",
     ],
     firstMonth: ["Tudo do primeiro mês do Profissional", "Configuração da medição de visitas vindas de IA"],
+    highlights: ["Tudo do Profissional", "Menções em portais, guias e listas", "Visitas e contatos vindos das IAs"],
     cta: "Quero o Completo",
   },
 ] as const;
@@ -128,86 +133,54 @@ export const commercialConditions = {
   announceNoSetupFee: false,
 } as const;
 
-/* ── Comparativo detalhado ──────────────────────────────────────────── */
+/* ── Comparativo (enxuto: o essencial para decidir) ────────────────────── */
 
 export type CompareValue = string | boolean;
 export type CompareRow = { label: string; tip?: string; values: Record<PlanId, CompareValue> };
-export type CompareGroup = { title: string; description: string; rows: CompareRow[] };
 
 const per = (fn: (p: Plan) => CompareValue) =>
   Object.fromEntries(plans.map((p) => [p.id, fn(p)])) as Record<PlanId, CompareValue>;
 
-export const compareGroups: CompareGroup[] = [
+const platformList = (p: Plan) => p.platforms.map((id) => platforms[id].name).join(", ");
+
+export const compareRows: CompareRow[] = [
   {
-    title: "Monitoramento nas IAs",
-    description: "Onde e quanto a gente testa sua marca todo mês.",
-    rows: [
-      { label: "IAs analisadas", values: per((p) => String(p.platforms.length)) },
-      {
-        label: "Plataformas",
-        values: per((p) => p.platforms.map((id) => platforms[id].name).join(", ")),
-      },
-      {
-        label: "Perguntas de compra / mês",
-        tip: "Perguntas que um cliente faria antes de contratar, como “qual a melhor empresa de [serviço] em [cidade]?”. Testamos cada uma nas IAs do plano.",
-        values: per((p) => String(p.monthlyQuestions)),
-      },
-      {
-        label: "Relatório de presença e concorrentes",
-        tip: "Onde sua marca aparece nas respostas e quais concorrentes aparecem no seu lugar.",
-        values: per(() => true),
-      },
-      {
-        label: "Comparativo com concorrentes",
-        values: { essencial: "Concorrentes identificados no relatório", profissional: "3 concorrentes", completo: "3 concorrentes" },
-      },
-    ],
+    label: "IAs analisadas",
+    tip: `Essencial: ${platformList(plans[0])}. Profissional: ${platformList(plans[1])}. Completo: ${platformList(plans[2])}.`,
+    values: per((p) => String(p.platforms.length)),
   },
   {
-    title: "Execução",
-    description: "O trabalho feito de verdade, que você consegue contar no fim do mês.",
-    rows: [
-      { label: "Conteúdos / mês", tip: "Artigos, páginas de perguntas frequentes ou páginas por serviço/cidade, publicados no seu site.", values: per((p) => String(p.monthlyContent)) },
-      { label: "Atualização do Perfil da Empresa no Google", values: per(() => true) },
-      {
-        label: "Case ou depoimento publicado",
-        tip: "Somente com material verdadeiro e autorização do cliente.",
-        values: { essencial: false, profissional: "1/mês*", completo: "1/mês*" },
-      },
-      {
-        label: "Menções em portais, guias e listas",
-        tip: "Busca de oportunidades para a marca ser citada em sites de fora, que as IAs usam como fonte.",
-        values: { essencial: false, profissional: false, completo: true },
-      },
-    ],
+    label: "Perguntas de compra por mês",
+    tip: "Perguntas que um cliente faria antes de contratar, como “qual a melhor empresa de [serviço] em [cidade]?”. Testamos cada uma nas IAs do plano.",
+    values: per((p) => String(p.monthlyQuestions)),
   },
   {
-    title: "Estratégia e acompanhamento",
-    description: "Como a gente mede e conversa sobre a evolução.",
-    rows: [
-      {
-        label: "Mapa de Money Prompts",
-        tip: "Money Prompts são as perguntas que levam à compra no seu setor. O mapa organiza quais delas priorizar.",
-        values: { essencial: false, profissional: "No 1º mês", completo: "No 1º mês" },
-      },
-      { label: "Revisão das páginas de serviço", values: { essencial: false, profissional: "No 1º mês", completo: "No 1º mês" } },
-      { label: "Reunião de resultados (30 min)", values: { essencial: false, profissional: "Mensal", completo: "Mensal" } },
-      {
-        label: "Visitas e contatos vindos de IA",
-        tip: "Medição das visitas ao site que chegaram por respostas de IA, conforme os dados tecnicamente disponíveis.",
-        values: { essencial: false, profissional: false, completo: true },
-      },
-    ],
+    label: "Conteúdos por mês",
+    tip: "Artigos, páginas de perguntas frequentes ou páginas por serviço e cidade, publicados no seu site.",
+    values: per((p) => String(p.monthlyContent)),
+  },
+  { label: "Perfil da Empresa no Google", values: per(() => true) },
+  { label: "Comparativo com concorrentes", values: { essencial: "No relatório", profissional: "3 concorrentes", completo: "3 concorrentes" } },
+  {
+    label: "Mapa de Money Prompts",
+    tip: "Money Prompts são as perguntas que levam à compra no seu setor. O mapa organiza quais delas priorizar. Feito no 1º mês.",
+    values: { essencial: false, profissional: true, completo: true },
+  },
+  { label: "Reunião mensal de resultados", values: { essencial: false, profissional: true, completo: true } },
+  {
+    label: "Case ou depoimento publicado",
+    tip: "Um por mês, somente com material verdadeiro e autorização do cliente.",
+    values: { essencial: false, profissional: true, completo: true },
   },
   {
-    title: "Primeiro mês",
-    description: "A estruturação que acontece no início do trabalho.",
-    rows: [
-      { label: "Diagnóstico inicial (o “antes”)", values: per(() => true) },
-      { label: "Perfil da Empresa no Google completo", values: per(() => true) },
-      { label: "Ajustes básicos de dados, serviços e contato no site", values: per(() => true) },
-      { label: "Configuração da medição de visitas vindas de IA", values: { essencial: false, profissional: false, completo: true } },
-    ],
+    label: "Menções em portais, guias e listas",
+    tip: "Busca de oportunidades para a marca ser citada em sites de fora, que as IAs usam como fonte.",
+    values: { essencial: false, profissional: false, completo: true },
+  },
+  {
+    label: "Visitas e contatos vindos de IA",
+    tip: "Medição das visitas ao site que chegaram por respostas de IA, conforme os dados tecnicamente disponíveis.",
+    values: { essencial: false, profissional: false, completo: true },
   },
 ];
 

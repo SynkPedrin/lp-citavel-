@@ -7,7 +7,7 @@
 
 export const hero = {
   headline: ["Seu cliente pergunta para a IA.", "Sua empresa aparece na resposta?"],
-  sub: "A Citável descobre como sua empresa aparece no ChatGPT, Gemini e outras inteligências artificiais — e executa melhorias para fortalecer sua presença e reputação digital.",
+  sub: "A Citável descobre como sua empresa aparece no ChatGPT, Gemini e outras inteligências artificiais e executa melhorias para fortalecer sua presença e reputação digital.",
   fieldLabel: "Cole o site da sua empresa",
   chatGreeting: "Olá! Cole o site da sua empresa e eu preparo o seu pedido de diagnóstico gratuito: como a sua marca aparece no ChatGPT, Gemini e outras IAs.",
   chatCta: "Receber diagnóstico pelo WhatsApp",
@@ -18,7 +18,6 @@ export const hero = {
 
 export const platformsStrip = {
   title: "Entenda como sua marca aparece nas principais IAs.",
-  note: "Plataformas analisadas conforme o plano contratado. As marcas pertencem aos seus titulares; não há parceria nem endosso.",
 };
 
 export const problem = {
@@ -95,7 +94,7 @@ export const pricing = {
 
 export const compare = {
   headline: "Compare os planos e saiba exatamente o que você recebe.",
-  sub: "Volumes por plano, sem somas escondidas. Toque ou passe o cursor no ícone ⓘ para entender cada termo.",
+  sub: "O essencial de cada plano em uma tela. Toque no ícone ⓘ para entender cada termo.",
   cta: "Escolher plano",
 };
 

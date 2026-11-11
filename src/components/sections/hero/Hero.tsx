@@ -34,20 +34,25 @@ export function Hero() {
         <p data-hero-in className="mx-auto mt-6 max-w-2xl text-[clamp(1.05rem,1.35vw,1.25rem)] leading-relaxed text-fg-2">
           {hero.sub}
         </p>
-        <div data-hero-in className="mt-10">
-          <HeroChat />
+        {/* Chat e onda numa grade: o chat ocupa as linhas 1 e 2 (metades iguais) e a onda vai da linha 2 até o fim,
+            ou seja, sobe do pé do hero até o meio do quadro branco, de borda a borda da tela. */}
+        <div className="mt-10 grid grid-cols-1 grid-rows-[1fr_1fr_auto]">
+          <div className="relative col-start-1 row-start-2 row-end-4 min-h-0">
+            <Onda fluid bars={72} lit={[11, 27, 44, 58]} className="absolute inset-y-0 left-[calc(50%-50vw)] w-screen justify-center opacity-90 [&>span]:max-w-none" />
+          </div>
+          <div data-hero-in className="relative z-10 col-start-1 row-start-1 row-end-3">
+            <HeroChat />
+          </div>
+          <p data-hero-in className="relative z-10 col-start-1 row-start-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 pb-28 pt-5 text-sm text-fg-2 sm:pb-36">
+            {hero.microcopy.map((m, i) => (
+              <span key={m} className="flex items-center gap-3 rounded-full bg-grafite/80 px-2 py-0.5">
+                {i > 0 && <span aria-hidden className="h-3 w-1.5 rotate-[20deg] rounded-full bg-lima" />}
+                {m}
+              </span>
+            ))}
+          </p>
         </div>
-        <p data-hero-in className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-fg-2">
-          {hero.microcopy.map((m, i) => (
-            <span key={m} className="flex items-center gap-3">
-              {i > 0 && <span aria-hidden className="h-3 w-1.5 rotate-[20deg] rounded-full bg-lima" />}
-              {m}
-            </span>
-          ))}
-        </p>
       </div>
-
-      <Onda bars={64} height={72} lit={[11, 37, 52]} className="shell mt-16 opacity-90 sm:mt-20" />
     </section>
   );
 }

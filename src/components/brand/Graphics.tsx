@@ -6,17 +6,37 @@ import { cn } from "@/lib/utils";
  */
 
 /** Onda PULSO: o sinal da reputação, em dados e aberturas. Determinística (sem random no render). */
-export function Onda({ bars = 56, height = 120, lit = [], className, color }: { bars?: number; height?: number; lit?: number[]; className?: string; color?: string }) {
+export function Onda({
+  bars = 56,
+  height = 120,
+  lit = [],
+  className,
+  color,
+  fluid = false,
+}: {
+  bars?: number;
+  height?: number;
+  lit?: number[];
+  className?: string;
+  color?: string;
+  /** Altura das barras em % do contêiner (o contêiner define a altura). */
+  fluid?: boolean;
+}) {
   const items = Array.from({ length: bars }, (_, i) => {
     const wave = Math.sin(i * 0.42) * 0.32 + Math.sin(i * 0.13 + 1.2) * 0.38 + 0.55;
-    const h = Math.round(Math.max(0.14, Math.min(1, wave)) * height);
+    const k = Math.max(0.14, Math.min(1, wave));
+    const h = fluid ? `${Math.round(k * 1000) / 10}%` : `${Math.round(k * height)}px`;
     const d = -((i * 37) % 23) / 10;
     return { h, d };
   });
   return (
-    <div aria-hidden className={cn("onda gap-[clamp(3px,0.7vw,10px)]", className)} style={{ height, ...(color ? ({ "--onda-c": color } as React.CSSProperties) : {}) }}>
+    <div
+      aria-hidden
+      className={cn("onda gap-[clamp(3px,0.7vw,10px)]", className)}
+      style={{ ...(fluid ? {} : { height }), ...(color ? ({ "--onda-c": color } as React.CSSProperties) : {}) }}
+    >
       {items.map((b, i) => (
-        <span key={i} className={lit.includes(i) ? "on" : undefined} style={{ "--h": `${b.h}px`, "--d": `${b.d}s` } as React.CSSProperties} />
+        <span key={i} className={lit.includes(i) ? "on" : undefined} style={{ "--h": b.h, "--d": `${b.d}s` } as React.CSSProperties} />
       ))}
     </div>
   );

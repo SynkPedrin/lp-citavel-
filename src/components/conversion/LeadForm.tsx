@@ -6,6 +6,7 @@ import { BrandIcon } from "@/components/brand/BrandIcon";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { site, whatsappLink } from "@/content/site";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
 import { track } from "@/lib/analytics";
 import type { LeadDelivery } from "@/lib/env";
 import {
@@ -184,13 +185,14 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
           </>
         ) : (
           <>
-            <span className="grid size-12 place-items-center rounded-full bg-lima text-grafite"><BrandIcon name="pergunta" className="size-6" /></span>
+            <span className="grid size-12 place-items-center rounded-full bg-lima text-grafite"><WhatsAppIcon className="size-6" /></span>
             <h3 className="t-title mt-5 text-[2rem]">Falta só enviar no WhatsApp.</h3>
             <p className="mt-3 text-base leading-relaxed text-chumbo">
               Abrimos o WhatsApp oficial da Citável com sua mensagem pronta. O pedido só chega à nossa equipe quando você tocar
               em enviar.
             </p>
-            <ButtonLink href={status.href} variant="dark" className="mt-6" onClick={() => track("whatsapp_click", { origin })}>
+            <ButtonLink href={status.href} variant="dark" className="mt-6" onClick={() => track("whatsapp_click", { origin })} arrow={false}>
+              <WhatsAppIcon className="size-5" />
               Abrir o WhatsApp
             </ButtonLink>
           </>
@@ -287,21 +289,25 @@ export function LeadForm({ delivery, origin, defaults, compact, autoFocus, submi
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track("whatsapp_click", { origin })}
-              className="mt-2 inline-block font-bold text-grafite underline underline-offset-4"
+              className="mt-2 inline-flex items-center gap-1.5 font-bold text-grafite underline underline-offset-4"
             >
+              <WhatsAppIcon className="size-4" />
               Enviar pelo WhatsApp oficial
             </a>
           </div>
         )}
 
         <div className="sm:col-span-2">
-          <Button type="submit" variant="lima" className="w-full" arrow={!submitting}>
+          <Button type="submit" variant="lima" className="w-full" arrow={!submitting && delivery !== "whatsapp"}>
             {submitting ? (
               <span className="flex items-center gap-2">
                 <Loader2 aria-hidden className="size-4 animate-spin" /> Enviando…
               </span>
             ) : delivery === "whatsapp" ? (
-              `${submitLabel} pelo WhatsApp`
+              <>
+                <WhatsAppIcon className="size-5" />
+                {`${submitLabel} pelo WhatsApp`}
+              </>
             ) : (
               submitLabel
             )}

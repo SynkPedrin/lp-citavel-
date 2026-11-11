@@ -10,8 +10,8 @@ function Frame({ title, children }: { title: string; children: React.ReactNode }
   return (
     <div className="rounded-[24px] bg-grafite p-2">
       <div className="rounded-[18px] bg-app-bg p-4 text-grafite sm:p-5">
-        <div className="mb-4 flex items-center justify-between gap-3">
-          <p className="truncate text-[14px] font-bold">{title}</p>
+        <div className="mb-4 flex items-start justify-between gap-3">
+          <p className="min-w-0 text-[14px] font-bold leading-snug">{title}</p>
           <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-info px-2.5 text-[11px] font-bold uppercase tracking-[0.06em]">Exemplo</span>
         </div>
         {children}
@@ -27,7 +27,7 @@ export function AnalysisDemo() {
   const mentions = [
     { name: "Concorrente A", pos: "1º", cited: true },
     { name: "Concorrente B", pos: "2º", cited: true },
-    { name: "Sua marca", pos: "—", cited: false, you: true },
+    { name: "Sua marca", pos: "Fora", cited: false, you: true },
   ];
   return (
     <Frame title="Resposta analisada · ChatGPT">
@@ -72,9 +72,10 @@ export function OpportunitiesDemo() {
     <Frame title="Oportunidades identificadas · 4 de 8">
       <ul className="space-y-2">
         {rows.map((r) => (
-          <li key={r.title} data-demo-item className="flex flex-wrap items-center gap-3 rounded-[14px] border border-app-line bg-white px-3 py-2.5 sm:flex-nowrap">
+          <li key={r.title} data-demo-item className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 rounded-[14px] border border-app-line bg-white px-3 py-2.5 sm:flex sm:flex-nowrap">
             <span className="grid size-7 shrink-0 place-items-center rounded-full bg-grafite text-[12px] font-extrabold text-papel">{r.phase}</span>
-            <span className="min-w-0 flex-1 text-[14px]">{r.title}</span>
+            <span className="min-w-0 flex-1 text-[14px] leading-snug">{r.title}</span>
+            <span className="col-start-2 flex flex-wrap gap-1.5 sm:contents">
             <span className={cn(chip, r.priority === "Alta" ? "bg-[#fbecd6] text-[#8a5410]" : "bg-app-line text-app-text-2")}>{r.priority}</span>
             <span
               className={cn(
@@ -84,6 +85,7 @@ export function OpportunitiesDemo() {
             >
               {pill}
               {r.status}
+            </span>
             </span>
           </li>
         ))}

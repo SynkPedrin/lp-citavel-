@@ -18,9 +18,9 @@ export function Proof() {
             <p className="text-[1.1rem] font-bold tracking-[-0.02em]">Case #0 · Endrigo Almada, fundador da Citável</p>
             <p className="t-label text-fg-3">Relato da própria Citável</p>
           </div>
-          <ol className="grid divide-y divide-line md:grid-cols-4 md:divide-x md:divide-y-0">
+          <ol className="grid gap-px bg-line md:grid-cols-2 xl:grid-cols-4">
             {proof.steps.map((s, i) => (
-              <li key={s.label} className="p-6 sm:p-8">
+              <li key={s.label} className="bg-carvao p-6 sm:p-8">
                 <p className="t-label text-lima">
                   {String(i + 1).padStart(2, "0")} · {s.label}
                 </p>

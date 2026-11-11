@@ -32,7 +32,7 @@ type Variants = VariantProps<typeof buttonVariants>;
 function Inner({ children, arrow = true }: { children: ReactNode; arrow?: boolean }) {
   return (
     <>
-      <span>{children}</span>
+      <span className="inline-flex min-w-0 items-center justify-center gap-2">{children}</span>
       {arrow && (
         <span aria-hidden className="transition-transform duration-[320ms] ease-[var(--ease-cit)] group-hover/btn:translate-x-0.5">
           →

@@ -8,6 +8,7 @@ import { whatsappLink } from "@/content/site";
 import { track } from "@/lib/analytics";
 import { normalizeSite, siteSchema } from "@/lib/lead-schema";
 import { BrandSymbol } from "@/components/brand/Logo";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
 import { ButtonLink } from "@/components/ui/Button";
 import { useLead } from "@/components/conversion/LeadContext";
 import { cn } from "@/lib/utils";
@@ -159,7 +160,8 @@ export function HeroChat() {
                 Tudo pronto para começar. Nossa equipe testa <b>{host}</b> no ChatGPT, Gemini e outras IAs e envia o diagnóstico gratuito pelo
                 WhatsApp.
               </p>
-              <ButtonLink href={waHref} variant="lima" className="mt-4 w-full sm:w-auto" onClick={() => track("whatsapp_click", { origin: "hero" })}>
+              <ButtonLink href={waHref} variant="lima" className="mt-4 w-full sm:w-auto" onClick={() => track("whatsapp_click", { origin: "hero" })} arrow={false}>
+                <WhatsAppIcon className="size-5" />
                 {hero.chatCta}
               </ButtonLink>
               <p className="mt-3 text-[13px] text-chumbo">

@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef } from "react";
-import { commercialConditions, formatNumber, plans, platforms, publicationNote, type Plan, type PlanTheme } from "@/config/plans";
+import { useEffect, useRef, useState } from "react";
+import { commercialConditions, formatNumber, plans, publicationNote, type Plan, type PlanTheme } from "@/config/plans";
 import { pricing } from "@/content/sections";
 import { track } from "@/lib/analytics";
 import { BrandIcon } from "@/components/brand/BrandIcon";
@@ -21,7 +20,7 @@ export const planTheme: Record<PlanTheme, { panel: string; button: "lima" | "dar
 function PlanCard({ plan }: { plan: Plan }) {
   const t = planTheme[plan.theme];
   return (
-    <li data-reveal className={cn("flex flex-col rounded-[28px] p-6 sm:p-8", t.panel)}>
+    <li data-reveal data-plan-card className={cn("relative flex w-[86%] shrink-0 snap-start flex-col rounded-[28px] p-6 sm:w-[62%] sm:p-8 md:w-[46%] lg:w-auto", t.panel)}>
       <div className="flex min-h-8 items-center justify-between gap-3">
         <h3 className="text-[1.6rem] font-bold tracking-[-0.03em]">{plan.name}</h3>
         {plan.tag && <Tag tone="dark">{plan.tag}</Tag>}
@@ -56,51 +55,44 @@ function PlanCard({ plan }: { plan: Plan }) {
         ))}
       </dl>
 
-      <div className="mt-6">
-        <p className="t-label text-fg-3">IAs analisadas</p>
-        <ul className="mt-3 flex flex-wrap gap-1.5">
-          {plan.platforms.map((id) => {
-            const p = platforms[id];
-            return (
-              <li key={id} className="flex h-7 items-center gap-1.5 rounded-full border border-line px-2.5 text-[12px] font-semibold">
-                {!p.wide && <Image src={p.logo} alt="" width={p.w} height={p.h} sizes="14px" className={cn("size-3.5 object-contain", p.mono && plan.theme !== "carvao" && "invert")} />}
-                {p.name}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      <div className="mt-6">
-        <p className="t-label text-fg-3">Todo mês</p>
-        <ul className="mt-3 space-y-2.5 text-[15px]">
-          {plan.inherits && <li className="text-fg-2">{plan.inherits}</li>}
-          {[`${plan.monthlyQuestions} perguntas de compra testadas`, `${plan.monthlyContent} ${plan.monthlyContentNote}`, ...plan.monthlyExtras].map((f) => (
-            <li key={f} className="flex gap-2.5">
-              <BrandIcon name="citada" className={cn("mt-0.5 size-[18px]", t.check)} />
-              {f}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-6 border-t border-line pt-5">
-        <p className="t-label text-fg-3">No primeiro mês</p>
-        <ul className="mt-3 space-y-2 text-[14px] text-fg-2">
-          {plan.firstMonth.map((f) => (
-            <li key={f} className="flex gap-2.5">
-              <span aria-hidden className={cn("mt-1.5 h-3 w-1.5 shrink-0 rotate-[20deg] rounded-full", t.dot)} />
-              {f}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="mt-6 space-y-3 text-[15px] leading-snug">
+        {plan.highlights.map((f) => (
+          <li key={f} className="flex gap-2.5">
+            <BrandIcon name="citada" className={cn("mt-px size-[18px] shrink-0", t.check)} />
+            {f}
+          </li>
+        ))}
+      </ul>
     </li>
   );
 }
 
 export function Plans() {
   const ref = useRef<HTMLElement>(null);
+  const rail = useRef<HTMLUListElement>(null);
+  const [active, setActive] = useState(0);
+
+  const cards = () => [...(rail.current?.querySelectorAll<HTMLElement>("[data-plan-card]") ?? [])];
+  const onScroll = () => {
+    const el = rail.current;
+    if (!el) return;
+    const x = el.scrollLeft;
+    const list = cards();
+    let best = 0;
+    list.forEach((c, i) => {
+      if (Math.abs(c.offsetLeft - el.offsetLeft - x) < Math.abs(list[best].offsetLeft - el.offsetLeft - x)) best = i;
+    });
+    // no fim da rolagem o último card pode não alinhar ao início
+    if (x + el.clientWidth >= el.scrollWidth - 4) best = list.length - 1;
+    setActive(best);
+  };
+  const goTo = (i: number) => {
+    const el = rail.current;
+    const c = cards()[i];
+    if (!el || !c) return;
+    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollTo({ left: c.offsetLeft - el.offsetLeft - parseFloat(getComputedStyle(el).scrollPaddingLeft || "0"), behavior: smooth ? "smooth" : "auto" });
+  };
 
   useEffect(() => {
     const el = ref.current;
@@ -129,12 +121,43 @@ export function Plans() {
           {commercialConditions.announceNoSetupFee && <Tag tone="line">{pricing.noSetupFeeNote}</Tag>}
         </div>
 
-        <ul className="mt-10 grid gap-3 lg:grid-cols-3 lg:items-start">
+        {/* Mobile e tablet: os planos lado a lado, arrastando para o lado (sem rolar três cards gigantes). Desktop: grade. */}
+        <ul
+          ref={rail}
+          onScroll={onScroll}
+          aria-label="Planos"
+          className="no-scrollbar relative -mx-4 mt-10 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 min-[900px]:-mx-14 min-[900px]:scroll-px-14 min-[900px]:px-14 lg:mx-0 lg:grid lg:grid-cols-3 lg:items-stretch lg:overflow-visible lg:px-0 lg:pb-0"
+        >
           {plans.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}
         </ul>
-        <p className="mt-8 max-w-3xl text-xs leading-relaxed text-fg-3">
+        <div className="mt-4 flex items-center justify-center gap-1 lg:hidden">
+          {plans.map((p, i) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => goTo(i)}
+              aria-label={`Ver plano ${p.name}`}
+              aria-current={i === active ? "true" : undefined}
+              className="grid size-8 place-items-center"
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "h-3 rounded-full transition-all duration-[320ms] ease-[var(--ease-cit)]",
+                  i === active ? "w-6 bg-lima" : "w-1.5 rotate-[20deg] bg-fg-3",
+                )}
+              />
+            </button>
+          ))}
+        </div>
+        <p data-reveal className="mt-8 text-center">
+          <a href="#comparativo" className="inline-flex min-h-11 items-center gap-2 font-semibold underline decoration-lima decoration-2 underline-offset-[6px] hover:text-lima">
+            Ver tudo que está incluso em cada plano <span aria-hidden>→</span>
+          </a>
+        </p>
+        <p className="mt-6 max-w-3xl text-xs leading-relaxed text-fg-3">
           {publicationNote} “Mais indicado” é uma recomendação de posicionamento da Citável, não um dado de vendas.
         </p>
       </div>

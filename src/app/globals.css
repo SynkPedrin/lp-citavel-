@@ -65,9 +65,10 @@
   @keyframes dialog-in {
     from { opacity: 0; transform: translateY(16px); }
   }
+  /* Só transform: a onda pulsa sem mover o layout (CLS zero). */
   @keyframes onda {
-    from { height: calc(var(--h) * 0.35); }
-    to { height: var(--h); }
+    from { transform: rotate(20deg) scaleY(0.35); }
+    to { transform: rotate(20deg) scaleY(1); }
   }
 }
 
@@ -309,9 +310,13 @@ html.lenis, html.lenis body { height: auto; }
     transform: rotate(20deg);
     transform-origin: 50% 100%;
     height: var(--h);
+    will-change: transform;
   }
   .onda > span.on { background: var(--color-lima); }
   html.motion .onda > span { animation: onda 2.4s var(--ease-cit) infinite alternate; animation-delay: var(--d); }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
 
   /* Formulários */
   .select-chevron {

@@ -23,7 +23,6 @@ export function PlatformsStrip() {
           })}
         </ul>
       </div>
-      <p className="shell mt-6 text-xs text-fg-3">{platformsStrip.note}</p>
     </section>
   );
 }
