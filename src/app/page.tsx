@@ -14,6 +14,7 @@ import { Solution } from "@/components/sections/solution/Solution";
 import { Deliverables } from "@/components/sections/Deliverables";
 import { Plans } from "@/components/sections/pricing/Plans";
 import { CompareTable } from "@/components/sections/pricing/CompareTable";
+import { GptAds } from "@/components/sections/GptAds";
 import { Method } from "@/components/sections/Method";
 import { Proof } from "@/components/sections/Proof";
 import { Faq } from "@/components/sections/Faq";
@@ -21,7 +22,7 @@ import { FinalCta } from "@/components/sections/FinalCta";
 
 /**
  * Jornada comercial: Hero → Problema → Solução → Entregas → Planos → Comparativo
- * → Método → Prova → FAQ → Conversão final.
+ * → GPT Ads → Método → Prova → FAQ → Conversão final.
  */
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
         <Deliverables />
         <Plans />
         <CompareTable />
+        <GptAds />
         <Method />
         <Proof />
         <Faq />

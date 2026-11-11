@@ -49,11 +49,11 @@ export function SiteHeader() {
           <Lockup />
         </a>
 
-        <nav aria-label="Navegação principal" className="hidden lg:block">
+        <nav aria-label="Navegação principal" className="hidden xl:block">
           <ul className="flex items-center gap-7">
             {nav.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="text-[15px] font-medium text-fg-2 transition-colors duration-[160ms] hover:text-fg">
+                <a href={item.href} className="whitespace-nowrap text-[15px] font-medium text-fg-2 transition-colors duration-[160ms] hover:text-fg">
                   {item.label}
                 </a>
               </li>
@@ -68,7 +68,7 @@ export function SiteHeader() {
           <button
             ref={toggleRef}
             type="button"
-            className="relative z-10 grid size-10 place-items-center rounded-full border border-line text-fg transition-colors hover:border-lima lg:hidden"
+            className="relative z-10 grid size-10 place-items-center rounded-full border border-line text-fg transition-colors hover:border-lima xl:hidden"
             aria-expanded={open}
             aria-controls="menu-mobile"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -79,7 +79,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div id="menu-mobile" ref={panelRef} hidden={!open} role="dialog" aria-modal="true" aria-label="Menu" className="t-dark fixed inset-x-0 bottom-0 top-[var(--header-h)] overflow-y-auto lg:hidden">
+      <div id="menu-mobile" ref={panelRef} hidden={!open} role="dialog" aria-modal="true" aria-label="Menu" className="t-dark fixed inset-x-0 bottom-0 top-[var(--header-h)] overflow-y-auto xl:hidden">
         <nav aria-label="Navegação mobile" className="shell flex h-full flex-col justify-between pb-10 pt-6">
           <ul>
             {nav.map((item, i) => (
