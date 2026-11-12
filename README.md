@@ -47,7 +47,7 @@ O brand book não tem laranja nem cyan. Por isso os planos usam os painéis da p
 
 ## Jornada da página
 
-Header → **Hero** (chat: cole o site → busca → WhatsApp) → Faixa de IAs → Problema → Como funciona (Analisamos / Identificamos / Executamos) → O que fazemos → **Planos** → **Comparativo** → **GPT Ads** (preparação para anúncios no ChatGPT, com a simulação em `public/brand/gpt-ads-mockup.jpg`) → Método PULSO™ → Prova (Case #0) → FAQ → Diagnóstico gratuito → Footer.
+Header → **Hero** (chat: cole o site → busca → WhatsApp) → Faixa de IAs → Problema → Como funciona (Analisamos / Identificamos / Executamos) → O que fazemos → **Planos** → **Comparativo** → Método PULSO™ → Prova (Case #0) → FAQ → Diagnóstico gratuito → Footer.
 
 ## Planos: fonte única
 
@@ -65,7 +65,7 @@ Os preços, volumes e entregas ficam **somente** em `src/config/plans.ts`. A ori
 - `commercialConditions.announceNoSetupFee` vem `false`. “Sem taxa de implantação” só aparece quando a condição for confirmada.
 - Não são publicados: fidelidade de 6 meses, condição de cliente fundador, reajuste futuro e vagas limitadas. No plano de lançamento eles constam como “para debater”.
 - A tag “Mais indicado” no Profissional é uma recomendação de posicionamento, e a página deixa isso explícito.
-- Comparativo, “Mapa de Money Prompts”: o plano de lançamento só prevê o mapa no 1º mês do Profissional (e, por herança, do Completo). Por isso o Essencial aparece como “não incluído” (pílula cinza), e não “Básico”.
+- Comparativo, “Mapa de Money Prompts”: o plano de lançamento só prevê o mapa no 1º mês do Profissional (e, por herança, do Completo). Por isso o Essencial aparece com “—”, e não “Básico”.
 
 O modelo comercial anterior (Presença / Autoridade / Líder de Categoria) foi removido do código, da copy, do FAQ e dos dados estruturados.
 

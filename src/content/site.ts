@@ -49,7 +49,6 @@ export const site = {
 export const nav = [
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#entregas", label: "O que fazemos" },
-  { href: "#gpt-ads", label: "GPT Ads" },
   { href: "#metodo", label: "Método PULSO" },
   { href: "#planos", label: "Planos" },
   { href: "#faq", label: "Dúvidas" },
