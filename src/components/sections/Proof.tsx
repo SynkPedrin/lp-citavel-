@@ -9,7 +9,9 @@ const trustIcons: BrandIconName[] = ["score", "relatorio", "conteudo"];
 
 export function Proof() {
   return (
-    <section id="case" aria-labelledby="case-title" className="t-dark py-20 sm:py-28">
+    <section id="case" aria-labelledby="case-title" className="t-dark relative py-20 sm:py-28">
+      {/* âncora antiga (#prova), usada por links do site anterior */}
+      <span id="prova" aria-hidden className="absolute top-0" />
       <div className="shell">
         <SectionHeading id="case-title" eyebrow={proof.eyebrow} lines={[proof.headline]} sub={proof.sub} split />
 

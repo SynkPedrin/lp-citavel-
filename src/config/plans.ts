@@ -54,7 +54,7 @@ export const plans: readonly Plan[] = [
     id: "essencial",
     name: "Essencial",
     theme: "carvao",
-    monthlyPrice: 497,
+    monthlyPrice: 997,
     audience: "Para empresas que estão começando a construir sua presença nas IAs.",
     platforms: ["chatgpt", "gemini"],
     monthlyQuestions: 15,
@@ -76,7 +76,7 @@ export const plans: readonly Plan[] = [
     id: "profissional",
     name: "Profissional",
     theme: "lima",
-    monthlyPrice: 897,
+    monthlyPrice: 2497,
     audience: "Para empresas que querem acompanhar concorrentes e fortalecer sua presença com mais conteúdo e estratégia.",
     platforms: ["chatgpt", "gemini", "perplexity", "google-ai"],
     monthlyQuestions: 30,
@@ -101,7 +101,7 @@ export const plans: readonly Plan[] = [
     id: "completo",
     name: "Completo",
     theme: "papel",
-    monthlyPrice: 1297,
+    monthlyPrice: 4997,
     audience: "Para empresas com mais serviços, unidades ou cidades que precisam ampliar a estratégia de reputação.",
     platforms: ["chatgpt", "gemini", "perplexity", "google-ai", "claude", "copilot", "grok"],
     monthlyQuestions: 60,
@@ -184,5 +184,5 @@ export const compareRows: CompareRow[] = [
   },
 ];
 
-/** 1297 → "1.297" (o "R$" é renderizado à parte, em tamanho menor). */
+/** 4997 → "4.997" (o "R$" é renderizado à parte, em tamanho menor). */
 export const formatNumber = (value: number) => new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(value);

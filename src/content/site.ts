@@ -12,7 +12,7 @@ export const site = {
   url: siteUrl,
   title: "CITÁVEL · Reputação de marcas em inteligência artificial",
   description:
-    "Descubra se sua empresa aparece quando alguém pede uma recomendação ao ChatGPT, Gemini e outras IAs. A Citável analisa as respostas, identifica oportunidades e executa melhorias todo mês. Planos a partir de R$ 497/mês.",
+    "Descubra se sua empresa aparece quando alguém pede uma recomendação ao ChatGPT, Gemini e outras IAs. A Citável analisa as respostas, identifica oportunidades e executa melhorias todo mês. Planos a partir de R$ 997/mês.",
   shortDescription:
     "Reputação de marcas em inteligência artificial. Monitoramos como sua empresa aparece nas respostas das IAs e executamos melhorias todo mês.",
   locale: "pt_BR",

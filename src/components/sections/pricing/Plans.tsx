@@ -112,7 +112,9 @@ export function Plans() {
   }, []);
 
   return (
-    <section ref={ref} id="planos" aria-labelledby="planos-title" className="t-dark py-20 sm:py-28">
+    <section ref={ref} id="planos" aria-labelledby="planos-title" className="t-dark relative py-20 sm:py-28">
+      {/* âncora antiga (#precos), usada por links do site anterior */}
+      <span id="precos" aria-hidden className="absolute top-0" />
       <div className="shell">
         <SectionHeading id="planos-title" eyebrow={pricing.eyebrow} lines={[pricing.headline]} sub={pricing.sub} split />
 

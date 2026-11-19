@@ -55,7 +55,7 @@ Os preços, volumes e entregas ficam **somente** em `src/config/plans.ts`. A ori
 
 | | Essencial | Profissional | Completo |
 |---|---|---|---|
-| Mensalidade | R$ 497 | R$ 897 | R$ 1.297 |
+| Mensalidade | R$ 997 | R$ 2.497 | R$ 4.997 |
 | IAs analisadas | 2 | 4 | 7 |
 | Perguntas/mês | 15 | 30 | 60 |
 | Conteúdos/mês | 2 | 4 | 6 |
@@ -171,3 +171,7 @@ assets/                  originais (intocados)
 - Confirmar a política de privacidade em `https://citavel.ai/privacidade.html` para este formulário.
 - Decidir se “sem taxa de implantação” entra na página (`commercialConditions.announceNoSetupFee`).
 - Conectar GTM/GA4, se desejado; os eventos já são enviados para `dataLayer`.
+
+## Publicação em citavel.ai (home nova + site anterior)
+
+Com a variável `LEGACY_SITE_ORIGIN` (URL `*.vercel.app` do projeto do site anterior, **nunca** `https://citavel.ai`, que entraria em loop), esta LP vira a home e todo endereço que ela não conhece é servido pelo site anterior no mesmo caminho: blog, case, páginas de SEO, `llms.txt`, áreas de cliente. `robots.txt` e `sitemap.xml` também vêm do site anterior. A barra final não é removida (o blog usa `/blog/` com links relativos). Sem a variável, a LP funciona sozinha.
